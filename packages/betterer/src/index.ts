@@ -2,14 +2,14 @@ export { betterer, file, watch } from './betterer';
 export {
   BettererConfig,
   BettererConfigFilters,
-  BettererConfigIgnore,
+  BettererConfigIgnores,
   BettererConfigPaths,
   BettererBaseConfigPartial,
   BettererStartConfigPartial,
   BettererWatchConfigPartial
 } from './config/public';
 export { BettererContext, BettererRun, BettererRuns, BettererSummary, BettererRunNames } from './context/public';
-export { BettererDiff, BettererResult } from './results/public';
+export { BettererResult } from './results/public';
 export { BettererReporter, BettererReporterNames } from './reporters/public';
 export {
   BettererDeserialise,
@@ -18,7 +18,6 @@ export {
   BettererFilePatterns,
   BettererFileResolver,
   BettererFileTest,
-  BettererFileTestDiff,
   BettererFileTestFunction,
   BettererFile,
   BettererFileBase,
@@ -34,8 +33,6 @@ export {
   BettererTestConstraint,
   BettererTestFunction,
   BettererTestGoal,
-  BettererTestConfigPartial,
-  BettererTestConfig,
-  BettererTestState
+  BettererTestConfig
 } from './test/public';
 export { BettererFilePaths, BettererWatcher, BettererWatchRunHandler } from './watcher/public';

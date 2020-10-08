@@ -41,7 +41,6 @@ Array [
   "running \\"tsquery no raw console.log\\"!",
   " ☀️  betterer  info  💬  - ",
   "\\"tsquery no raw console.log\\" got force updated. 🆙",
-  "",
   " ☀️  betterer  warn  🚨  - ",
   "1 existing issue in \\"<project>/fixtures/test-betterer-update/src/index.ts\\".",
   " ☀️  betterer  erro  🔥  - ",
@@ -52,7 +51,6 @@ Array [
   1 | console.log('foo');
 > 2 | console.log('foo');
     | ^^^^^^^^^^^",
-  "",
   "",
   " ☀️  betterer  info  💬  - ",
   "1 test got checked. 🤔",

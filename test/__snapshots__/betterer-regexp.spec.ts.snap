@@ -55,7 +55,6 @@ Array [
   "running \\"regexp no hack comments\\"!",
   " ☀️  betterer  erro  🔥  - ",
   "\\"regexp no hack comments\\" got worse. 😔",
-  "",
   " ☀️  betterer  warn  🚨  - ",
   "1 existing issue in \\"<project>/fixtures/test-betterer-regexp/src/index.ts\\".",
   " ☀️  betterer  erro  🔥  - ",
@@ -66,7 +65,6 @@ Array [
   1 | // HACK:
 > 2 | // HACK:
     | ^^^^^^^",
-  "",
   "",
   " ☀️  betterer  info  💬  - ",
   "1 test got checked. 🤔",

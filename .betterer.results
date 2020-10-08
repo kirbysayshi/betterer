@@ -4,7 +4,7 @@ exports[`no hack comments`] = {
     "packages/cli/src/cli.ts:2275900736": [
       [12, 0, 7, "RegExp match", "645651780"]
     ],
-    "packages/cli/src/init.ts:973259922": [
+    "packages/cli/src/init.ts:3731014745": [
       [91, 4, 7, "RegExp match", "645651780"]
     ]
   }`
@@ -12,15 +12,15 @@ exports[`no hack comments`] = {
 
 exports[`new eslint rules`] = {
   value: `{
-    "packages/betterer/src/errors.ts:2984110573": [
-      [7, 96, 10, "Invalid type \\"string | Error | BettererError\\" of template literal expression.", "3805115554"],
-      [8, 99, 11, "Invalid type \\"string | Error | BettererError\\" of template literal expression.", "2365839858"],
+    "packages/betterer/src/errors.ts:1988175450": [
+      [8, 96, 10, "Invalid type \\"string | Error | BettererError\\" of template literal expression.", "3805115554"],
       [9, 99, 11, "Invalid type \\"string | Error | BettererError\\" of template literal expression.", "2365839858"],
-      [11, 91, 12, "Invalid type \\"string | Error | BettererError\\" of template literal expression.", "362595323"],
-      [12, 70, 12, "Invalid type \\"string | Error | BettererError\\" of template literal expression.", "362595323"],
-      [13, 65, 8, "Invalid type \\"string | Error | BettererError\\" of template literal expression.", "92641249"],
-      [14, 67, 8, "Invalid type \\"string | Error | BettererError\\" of template literal expression.", "92641249"],
-      [17, 59, 11, "Invalid type \\"string | Error | BettererError\\" of template literal expression.", "2365839858"]
+      [10, 99, 11, "Invalid type \\"string | Error | BettererError\\" of template literal expression.", "2365839858"],
+      [12, 91, 12, "Invalid type \\"string | Error | BettererError\\" of template literal expression.", "362595323"],
+      [13, 70, 12, "Invalid type \\"string | Error | BettererError\\" of template literal expression.", "362595323"],
+      [14, 65, 8, "Invalid type \\"string | Error | BettererError\\" of template literal expression.", "92641249"],
+      [15, 67, 8, "Invalid type \\"string | Error | BettererError\\" of template literal expression.", "92641249"],
+      [18, 59, 11, "Invalid type \\"string | Error | BettererError\\" of template literal expression.", "2365839858"]
     ],
     "packages/cli/src/errors.ts:4053971182": [
       [2, 90, 10, "Invalid type \\"string | Error | BettererError\\" of template literal expression.", "3805115554"]
@@ -57,9 +57,9 @@ exports[`new eslint rules`] = {
       [66, 4, 68, "Promises must be handled appropriately or explicitly marked as ignored with the \`void\` operator.", "280309533"],
       [67, 4, 71, "Promises must be handled appropriately or explicitly marked as ignored with the \`void\` operator.", "2936064845"]
     ],
-    "packages/extension/src/server/validator.ts:2184596839": [
-      [50, 10, 90, "Promises must be handled appropriately or explicitly marked as ignored with the \`void\` operator.", "1821734533"],
-      [117, 12, 94, "Promises must be handled appropriately or explicitly marked as ignored with the \`void\` operator.", "2449957056"]
+    "packages/extension/src/server/validator.ts:3809560557": [
+      [45, 10, 90, "Promises must be handled appropriately or explicitly marked as ignored with the \`void\` operator.", "1821734533"],
+      [112, 12, 94, "Promises must be handled appropriately or explicitly marked as ignored with the \`void\` operator.", "2449957056"]
     ]
   }`
 };

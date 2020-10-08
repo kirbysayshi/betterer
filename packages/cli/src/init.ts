@@ -26,7 +26,7 @@ export async function initΔ(cwd: string, argv: BettererCLIArguments): Promise<v
 
   const { config } = (commander as unknown) as BettererCLIInitConfig;
 
-  infoΔ('initialising Betterer... ☀️');
+  infoΔ('initialising Betterer... ☀️').log();
   try {
     await createTestFile(cwd, config);
     await updatePackageJSON(cwd);
@@ -34,12 +34,12 @@ export async function initΔ(cwd: string, argv: BettererCLIArguments): Promise<v
     logErrorΔ(e);
     throw e;
   }
-  successΔ('initialised Betterer! ☀️');
+  successΔ('initialised Betterer! ☀️').log();
 }
 
 async function createTestFile(cwd: string, configFilePath: string): Promise<void> {
   const configPath = path.resolve(cwd, configFilePath);
-  infoΔ(`creating "${configPath}" file...`);
+  infoΔ(`creating "${configPath}" file...`).log();
 
   let exists = false;
   try {
@@ -49,7 +49,7 @@ async function createTestFile(cwd: string, configFilePath: string): Promise<void
   }
 
   if (exists) {
-    warnΔ(`"${configPath}" already exists, moving on... 🤔`);
+    warnΔ(`"${configPath}" already exists, moving on... 🤔`).log();
     return;
   }
 
@@ -59,11 +59,11 @@ async function createTestFile(cwd: string, configFilePath: string): Promise<void
     throw COULDNT_WRITE_CONFIG_FILE(configPath);
   }
 
-  successΔ(`created "${configPath}" file! 🎉`);
+  successΔ(`created "${configPath}" file! 🎉`).log();
 }
 
 async function updatePackageJSON(cwd: string): Promise<void> {
-  infoΔ(`adding "betterer" to package.json file...`);
+  infoΔ(`adding "betterer" to package.json file...`).log();
 
   let packageJSON;
   let packageJSONPath;
@@ -79,7 +79,7 @@ async function updatePackageJSON(cwd: string): Promise<void> {
 
   packageJSON.scripts = packageJSON.scripts || {};
   if (packageJSON.scripts.betterer) {
-    warnΔ(`"betterer" script already exists, moving on... 🤔`);
+    warnΔ(`"betterer" script already exists, moving on... 🤔`).log();
     return;
   } else {
     packageJSON.scripts.betterer = 'betterer';
@@ -87,7 +87,7 @@ async function updatePackageJSON(cwd: string): Promise<void> {
 
   packageJSON.devDependencies = packageJSON.devDependencies || {};
   if (packageJSON.devDependencies['@betterer/cli']) {
-    warnΔ(`"betterer" dependency already exists, moving on... 🤔`);
+    warnΔ(`"betterer" dependency already exists, moving on... 🤔`).log();
   } else {
     // HACK:
     // It's easier to use require than to try to get `await import`
@@ -103,5 +103,5 @@ async function updatePackageJSON(cwd: string): Promise<void> {
     throw COULDNT_WRITE_PACKAGE_JSON();
   }
 
-  successΔ(`added "betterer" to package.json file! 🎉`);
+  successΔ(`added "betterer" to package.json file! 🎉`).log();
 }

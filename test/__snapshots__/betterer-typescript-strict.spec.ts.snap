@@ -60,7 +60,6 @@ Array [
   "running \\"typescript use strict mode\\"!",
   " ☀️  betterer  erro  🔥  - ",
   "\\"typescript use strict mode\\" got worse. 😔",
-  "",
   " ☀️  betterer  warn  🚨  - ",
   "6 existing issues in \\"<project>/fixtures/test-betterer-typescript-strict/src/index.ts\\".",
   " ☀️  betterer  erro  🔥  - ",
@@ -72,7 +71,6 @@ Array [
   33 | const one = 1;
 > 34 | console.log(a * one);
      |             ^",
-  "",
   "",
   " ☀️  betterer  info  💬  - ",
   "1 test got checked. 🤔",

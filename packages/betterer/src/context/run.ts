@@ -1,7 +1,7 @@
 import * as assert from 'assert';
 
-import { BettererDiff, BettererResult } from '../results';
-import { BettererTestConfig } from '../test';
+import { BettererResult } from '../results';
+import { BettererDiff, BettererTestConfig } from '../test';
 import { BettererFilePaths } from '../watcher';
 import { BettererContextΩ } from './context';
 import { BettererContext, BettererRun } from './types';

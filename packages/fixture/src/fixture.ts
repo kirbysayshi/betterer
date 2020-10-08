@@ -18,7 +18,7 @@ export async function createFixtureDirectoryΔ(fixturesPath: string): Promise<Fi
     try {
       const fixtureNames = await fs.readdir(fixturesPath);
       if (fixtureNames.includes(fixtureName)) {
-        warnΔ(`There is already a fixture in use called "${fixtureName}"`);
+        warnΔ(`There is already a fixture in use called "${fixtureName}"`).log();
       }
     } catch {
       // Move on...

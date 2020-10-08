@@ -21,7 +21,7 @@ codeΔ({
   line: 1,
   column: 3,
   length: 13
-});
+}).log();
 ```
 
 ![Example output for code logger](/packages/logger/images/code.png?raw=true)
@@ -33,7 +33,7 @@ codeΔ({
 ```typescript
 import { errorΔ } from '@betterer/logger';
 
-errorΔ('message');
+errorΔ('message').log();
 ```
 
 ![Example output for error logger](/packages/logger/images/error.png?raw=true)
@@ -45,7 +45,7 @@ errorΔ('message');
 ```typescript
 import { infoΔ } from '@betterer/logger';
 
-infoΔ('message');
+infoΔ('message').log();
 ```
 
 ![Example output for info logger](/packages/logger/images/info.png?raw=true)
@@ -57,7 +57,7 @@ infoΔ('message');
 ```typescript
 import { successΔ } from '@betterer/logger';
 
-successΔ('message');
+successΔ('message').log();
 ```
 
 ![Example output for success logger](/packages/logger/images/success.png?raw=true)
@@ -69,7 +69,7 @@ successΔ('message');
 ```typescript
 import { warnΔ } from '@betterer/logger';
 
-warnΔ('message');
+warnΔ('message').log();
 ```
 
 ![Example output for warn logger](/packages/logger/images/warn.png?raw=true)

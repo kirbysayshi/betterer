@@ -4,16 +4,17 @@ import { BettererConfig } from '../config';
 import { COULDNT_READ_CONFIG } from '../errors';
 import { BettererReporter } from '../reporters';
 import { requireUncached } from '../require';
-import { BettererDiff, BettererResults, BettererResultΩ } from '../results';
+import { BettererResults, BettererResultΩ } from '../results';
 import {
+  BettererDiff,
   BettererTest,
   BettererTestMap,
-  BettererTestConfigPartial,
   BettererTestConfigMap,
-  BettererTestState,
+  BettererTestConfigPartial,
   isBettererFileTest,
   isBettererTest
 } from '../test';
+import { BettererTestBase } from '../test';
 import { BettererFilePaths } from '../watcher';
 import { BettererRunΩ } from './run';
 import { BettererSummaryΩ } from './summary';
@@ -29,7 +30,7 @@ export class BettererContextΩ implements BettererContext {
   private _running: Promise<void> | null = null;
 
   constructor(public readonly config: BettererConfig, private _reporter?: BettererReporter) {
-    this._results = new BettererResults(config);
+    this._results = new BettererResults(this.config.resultsPath);
     this._reporter?.contextStart?.(this);
   }
 
@@ -115,7 +116,7 @@ export class BettererContextΩ implements BettererContext {
       const tests: BettererTestMap = {};
       Object.keys(testOptions).forEach((name) => {
         const maybeTest = testOptions[name];
-        let test: BettererTestState | null = null;
+        let test: BettererTestBase | null = null;
         if (!isBettererTest(maybeTest)) {
           test = new BettererTest(testOptions[name] as BettererTestConfigPartial);
         } else {

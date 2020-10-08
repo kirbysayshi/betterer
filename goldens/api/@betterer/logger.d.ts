@@ -1,4 +1,4 @@
-export declare type BettererLogger = (...messages: BettererLoggerMessages) => void;
+export declare type BettererLogger<T extends Array<unknown>> = (...args: T) => BettererLoggerResult;
 
 export declare type BettererLoggerCodeInfo = {
     message: string;
@@ -11,30 +11,48 @@ export declare type BettererLoggerCodeInfo = {
 
 export declare type BettererLoggerDiffOptions = DiffOptions;
 
-export declare type BettererLoggerMessages = ReadonlyArray<string>;
+export declare type BettererLoggerResult = {
+    type: BettererLoggerMessageType;
+    messages: Array<string>;
+    log(): void;
+};
 
-export declare type BettererLoggerOverwriteDone = typeof logUpdate['done'];
+export declare type BettererLoggerResults = Array<BettererLoggerResult>;
 
-export declare function brΔ(): void;
+export declare const brΔ: BettererLogger<string[]>;
 
-export declare function codeΔ(codeInfo: BettererLoggerCodeInfo): void;
+export declare const codeΔ: (codeInfo: BettererLoggerCodeInfo) => {
+    type: BettererLoggerMessageType;
+    messages: string[];
+    log(): void;
+};
 
-export declare const debugΔ: BettererLogger;
+export declare const debugΔ: BettererLogger<string[]>;
 
-export declare function diffΔ(expected: unknown, result: unknown, options?: DiffOptions): void;
+export declare const diffΔ: (expected: unknown, result: unknown, options?: DiffOptions | undefined) => {
+    type: BettererLoggerMessageType;
+    messages: string[];
+    log(): void;
+};
 
-export declare const errorΔ: BettererLogger;
+export declare const errorΔ: BettererLogger<string[]>;
 
-export declare const infoΔ: BettererLogger;
+export declare const infoΔ: BettererLogger<string[]>;
 
-export declare function logoΔ(): void;
+export declare const logoΔ: () => {
+    type: BettererLoggerMessageType;
+    messages: string[];
+    log(): void;
+};
+
+export declare function logΔ(...results: BettererLoggerResults): void;
 
 export declare function muteΔ(): void;
 
-export declare function overwriteΔ(content: string): BettererLoggerOverwriteDone;
+export declare const rawΔ: BettererLogger<string[]>;
 
-export declare const successΔ: BettererLogger;
+export declare const successΔ: BettererLogger<string[]>;
 
 export declare function unmuteΔ(): void;
 
-export declare const warnΔ: BettererLogger;
+export declare const warnΔ: BettererLogger<string[]>;

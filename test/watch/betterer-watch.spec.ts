@@ -4,7 +4,7 @@ import { createFixture } from '../fixture';
 
 describe('betterer.watch', () => {
   it('should run in watch mode', async () => {
-    const { logs, paths, resolve, cleanup, writeFile, waitForRun } = await createFixture('test-betterer-watch', {
+    const { paths, resolve, cleanup, writeFile, waitForRun } = await createFixture('test-betterer-watch', {
       '.betterer.ts': `
 import { tsquery } from '@betterer/tsquery';
 
@@ -64,16 +64,12 @@ export default {
 
     await watcher.stop();
 
-    expect(logs).toMatchSnapshot();
-
     await cleanup();
   });
 
   it('should debounce runs when multiple files change', async () => {
-    const { logs, paths, resolve, cleanup, writeFile, waitForRun } = await createFixture(
-      'test-betterer-watch-debounce',
-      {
-        '.betterer.ts': `
+    const { paths, resolve, cleanup, writeFile, waitForRun } = await createFixture('test-betterer-watch-debounce', {
+      '.betterer.ts': `
 import { tsquery } from '@betterer/tsquery';
 
 export default {
@@ -83,7 +79,7 @@ export default {
   )
 };
       `,
-        'tsconfig.json': `
+      'tsconfig.json': `
 {
   "compilerOptions": {
     "noEmit": true,
@@ -96,8 +92,7 @@ export default {
   "include": ["./src/**/*", ".betterer.ts"]
 }
       `
-      }
-    );
+    });
 
     const configPaths = [paths.config];
     const resultsPath = paths.results;
@@ -115,16 +110,12 @@ export default {
 
     expect(summary.runs).toHaveLength(1);
 
-    expect(logs).toMatchSnapshot();
-
     await cleanup();
   });
 
   it('should ignore .gitignored files', async () => {
-    const { logs, paths, resolve, cleanup, writeFile, waitForRun } = await createFixture(
-      'test-betterer-watch-debounce',
-      {
-        '.betterer.ts': `
+    const { paths, resolve, cleanup, writeFile, waitForRun } = await createFixture('test-betterer-watch-gitignored', {
+      '.betterer.ts': `
 import { tsquery } from '@betterer/tsquery';
 
 export default {
@@ -134,7 +125,7 @@ export default {
   )
 };
       `,
-        'tsconfig.json': `
+      'tsconfig.json': `
 {
   "compilerOptions": {
     "noEmit": true,
@@ -147,14 +138,13 @@ export default {
   "include": ["./src/**/*", ".betterer.ts"]
 }
       `,
-        './src/.gitignore': `
+      './src/.gitignore': `
 ignored.ts
       `,
-        './src/nested/.gitignore': `
+      './src/nested/.gitignore': `
 ignored.ts
         `
-      }
-    );
+    });
 
     const configPaths = [paths.config];
     const resultsPath = paths.results;
@@ -175,8 +165,6 @@ ignored.ts
     await watcher.stop();
 
     expect(run.filePaths).toHaveLength(1);
-
-    expect(logs).toMatchSnapshot();
 
     await cleanup();
   });

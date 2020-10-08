@@ -1,14 +1,23 @@
 import { codeFrameColumns } from '@babel/code-frame';
 import * as chalk from 'chalk';
 import logDiff, { DiffOptions } from 'jest-diff';
-import * as logUpdate from 'log-update';
 import LinesAndColumns from 'lines-and-columns';
 import * as path from 'path';
 
-import { BettererLogger, BettererLoggerCodeInfo, BettererLoggerMessages, BettererLoggerOverwriteDone } from './types';
+import {
+  BettererLog,
+  BettererLogger,
+  BettererLoggerCodeInfo,
+  BettererLoggerMessageFactory,
+  BettererLoggerMessageType,
+  BettererLoggerResults
+} from './types';
 
-const ERROR_BLOCK = chalk.bgRed('  ');
-const IS_JS_REGEXP = /.t|jsx?$/;
+const DEFAULT_DIFF_OPTIONS: DiffOptions = {
+  aAnnotation: 'Expected',
+  bAnnotation: 'Result'
+};
+
 const LOGO = chalk.yellowBright(`
    \\ | /     _          _   _                     
  '-.ooo.-'  | |__   ___| |_| |_ ___ _ __ ___ _ __ 
@@ -16,65 +25,111 @@ const LOGO = chalk.yellowBright(`
  .-'ooo'-.  | |_) |  __/ |_| ||  __/ | |  __/ |   
    / | \\    |_.__/ \\___|\\__|\\__\\___|_|  \\___|_|   
  `);
-const NEW_LINE = '\n';
 
-let muted = false;
+let silent = false;
 
 export function muteΔ(): void {
-  muted = true;
+  silent = true;
 }
 
 export function unmuteΔ(): void {
-  muted = false;
+  silent = false;
 }
 
-export function logoΔ(): void {
-  log(LOGO);
+export const brΔ = createMessageLogger(BettererLoggerMessageType.raw, () => raw(''));
+
+export const codeΔ = createRawLogger(BettererLoggerMessageType.code, codeMessageFactory);
+
+export const debugΔ = createMessageLogger(
+  BettererLoggerMessageType.debug,
+  createLogger(chalk.bgBlue.white(' debg '), chalk.bgBlack(' 🤔 '))
+);
+
+export const diffΔ = createRawLogger(BettererLoggerMessageType.diff, diffMessageFactory);
+
+export const errorΔ = createMessageLogger(
+  BettererLoggerMessageType.error,
+  createLogger(chalk.bgRedBright.white(' erro '), chalk.bgBlack(' 🔥 '))
+);
+
+export const logoΔ = createRawLogger(BettererLoggerMessageType.logo, logoMessageFactory);
+
+export const infoΔ = createMessageLogger(
+  BettererLoggerMessageType.info,
+  createLogger(chalk.bgWhiteBright.black(' info '), chalk.bgBlack(' 💬 '))
+);
+
+export const rawΔ = createMessageLogger(BettererLoggerMessageType.raw, raw);
+
+export const successΔ = createMessageLogger(
+  BettererLoggerMessageType.success,
+  createLogger(chalk.bgGreenBright.black(' succ '), chalk.bgBlack(' ✅ '))
+);
+
+export const warnΔ = createMessageLogger(
+  BettererLoggerMessageType.warn,
+  createLogger(chalk.bgYellowBright.black(' warn '), chalk.bgBlack(' 🚨 '))
+);
+
+export function logΔ(...results: BettererLoggerResults): void {
+  results.forEach((result) => result.log());
 }
 
-export function brΔ(): void {
-  log('');
-}
+const IS_JS_REGEXP = /.t|jsx?$/;
+const ERROR_BLOCK = chalk.bgRed('  ');
+const NEW_LINE = '\n';
 
 const HEADING = chalk.bgBlack.yellowBright.bold(` ☀️  betterer `);
-
-let previousLogger: 'LOG' | 'CODE' = 'LOG';
-
-export const debugΔ = createLogger(chalk.bgBlue.white(' debg '), chalk.bgBlack(' 🤔 '));
-export const successΔ = createLogger(chalk.bgGreenBright.black(' succ '), chalk.bgBlack(' ✅ '));
-export const infoΔ = createLogger(chalk.bgWhiteBright.black(' info '), chalk.bgBlack(' 💬 '));
-export const warnΔ = createLogger(chalk.bgYellowBright.black(' warn '), chalk.bgBlack(' 🚨 '));
-export const errorΔ = createLogger(chalk.bgRedBright.white(' erro '), chalk.bgBlack(' 🔥 '));
-
 const SPACER = chalk.bgBlack.yellowBright(' - ');
 
-function log(...args: Array<string>): void {
-  if (!muted) {
-    // eslint-disable-next-line no-console
-    console.log(...args);
-  }
+function createLogger(name: string, icon: string): BettererLog {
+  return function (...messages: Array<string>): void {
+    raw(`${HEADING}${name}${icon}${SPACER}`, ...messages.map((m) => chalk.whiteBright(m)));
+  };
 }
-
-function createLogger(name: string, icon: string): BettererLogger {
-  return function (...messages: BettererLoggerMessages): void {
-    if (previousLogger === 'CODE') {
-      brΔ();
-    }
-    log(`${HEADING}${name}${icon}${SPACER}`, ...messages.map((m) => chalk.whiteBright(m)));
-    previousLogger = 'LOG';
+function createRawLogger<T extends Array<unknown>>(
+  type: BettererLoggerMessageType,
+  messageFactory: BettererLoggerMessageFactory<T>
+) {
+  return function (...args: T) {
+    const messages = messageFactory(...args);
+    return {
+      type,
+      messages,
+      log() {
+        if (!silent) {
+          messages.map((message) => raw(message));
+        }
+      }
+    };
   };
 }
 
-export function codeΔ(codeInfo: BettererLoggerCodeInfo): void {
+function createMessageLogger(type: BettererLoggerMessageType, log: BettererLog): BettererLogger<Array<string>> {
+  return function (...messages: Array<string>) {
+    return {
+      type,
+      messages,
+      log() {
+        if (!silent) {
+          messages.forEach((message) => log(message));
+        }
+      }
+    };
+  };
+}
+
+function codeMessageFactory(codeInfo: BettererLoggerCodeInfo) {
   const { filePath, fileText, message } = codeInfo;
-  const isJS = IS_JS_REGEXP.exec(path.extname(filePath));
   const options = {
-    highlightCode: !!isJS
+    highlightCode: !!IS_JS_REGEXP.exec(path.extname(filePath))
   };
+
   const lc = new LinesAndColumns(fileText);
   const startLocation = codeInfo;
   const startIndex = lc.indexForLocation(startLocation) || 0;
   const endLocation = lc.locationForIndex(startIndex + codeInfo.length) || startLocation;
+
   const start = {
     line: startLocation.line + 1,
     column: startLocation.column + 1
@@ -83,25 +138,21 @@ export function codeΔ(codeInfo: BettererLoggerCodeInfo): void {
     line: endLocation.line + 1,
     column: endLocation.column + 1
   };
+
   const codeFrame = codeFrameColumns(fileText, { start, end }, options);
   const codeMessage = chalk.bgBlack.white(message.trim());
-  log(`${NEW_LINE}${ERROR_BLOCK} ${codeMessage.split(NEW_LINE).join(`\n${ERROR_BLOCK} `)}\n\n${codeFrame}`);
-  previousLogger = 'CODE';
+  return [`${NEW_LINE}${ERROR_BLOCK} ${codeMessage.split(NEW_LINE).join(`\n${ERROR_BLOCK} `)}\n\n${codeFrame}`, ''];
 }
 
-export function overwriteΔ(content: string): BettererLoggerOverwriteDone {
-  if (!muted) {
-    logUpdate(`${LOGO}${NEW_LINE}${content}`);
-  }
-  return logUpdate.done.bind(logUpdate);
+function diffMessageFactory(expected: unknown, result: unknown, options: DiffOptions = DEFAULT_DIFF_OPTIONS) {
+  return ['', logDiff(expected, result, options) || '', ''];
 }
 
-const DEFAULT_DIFF_OPTIONS: DiffOptions = {
-  aAnnotation: 'Expected',
-  bAnnotation: 'Result'
-};
+function logoMessageFactory() {
+  return [LOGO];
+}
 
-export function diffΔ(expected: unknown, result: unknown, options: DiffOptions = DEFAULT_DIFF_OPTIONS): void {
+function raw(...args: Array<string>): void {
   // eslint-disable-next-line no-console
-  console.log(logDiff(expected, result, options));
+  console.log(...args);
 }

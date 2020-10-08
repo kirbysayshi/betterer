@@ -17,7 +17,7 @@ const CHUNK_SPLIT = '\n\n';
 const INTERNAL_TOKENS = ['Ω'];
 
 void (async function () {
-  infoΔ('Validating API for @betterer packages... ☀️');
+  infoΔ('Validating API for @betterer packages... ☀️').log();
 
   const items = await fs.readdir(PACKAGES_DIR);
 
@@ -50,25 +50,25 @@ void (async function () {
         if (foundToken) {
           errorΔ(
             `Found "${foundToken}" in the API for "@betterer/${packageName}. This means internal code has been exposed.`
-          );
+          ).log();
           return false;
         }
 
         const isDefinitelyValid = packageGolden === packageGenerated;
         const isProbablyValid = isDefinitelyValid || checkForOutOfOrder(packageGenerated, packageGolden);
         if (isProbablyValid) {
-          successΔ(`No Breaking API changes found in "@betterer/${packageName}" 👍`);
+          successΔ(`No Breaking API changes found in "@betterer/${packageName}" 👍`).log();
           if (!isDefinitelyValid) {
-            infoΔ(`There's a *slight* chance this could be a false positive, so maybe just double check it! 😬`);
+            infoΔ(`There's a *slight* chance this could be a false positive, so maybe just double check it! 😬`).log();
           }
           return true;
         }
 
-        warnΔ(`API changes found in "@betterer/${packageName}" 🚨`);
+        warnΔ(`API changes found in "@betterer/${packageName}" 🚨`).log();
         const diff = verifyAgainstGoldenFile(packageDeclarationPath, packageGoldenPath, API_OPTIONS);
-        brΔ();
+        brΔ().log();
         process.stdout.write(diff);
-        brΔ();
+        brΔ().log();
         return false;
       }
     )

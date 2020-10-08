@@ -14,7 +14,7 @@ async function main() {
       launchArgs: [fixturesPath, '--disable-extensions']
     });
   } catch (err) {
-    errorΔ('Failed to run tests');
+    errorΔ('Failed to run tests').log();
     process.exitCode = 1;
   }
 }

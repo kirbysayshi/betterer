@@ -1,5 +1,6 @@
 import * as ansiRegex from 'ansi-regex';
 import * as path from 'path';
+import { Console } from 'console';
 
 import { FixtureLogs } from './types';
 
@@ -26,6 +27,9 @@ export function createFixtureLogs(): FixtureLogs {
     return true;
   });
   process.stdout.columns = 1000;
+  process.stdout.rows = 20;
+  // eslint-disable-next-line no-console
+  console.Console = Console;
 
   return logs as FixtureLogs;
 }

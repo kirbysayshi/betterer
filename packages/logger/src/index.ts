@@ -1,8 +1,8 @@
-export { brΔ, codeΔ, errorΔ, infoΔ, logoΔ, overwriteΔ, successΔ, warnΔ, unmuteΔ, muteΔ, debugΔ, diffΔ } from './logger';
+export { brΔ, codeΔ, debugΔ, diffΔ, errorΔ, infoΔ, logΔ, logoΔ, muteΔ, rawΔ, successΔ, unmuteΔ, warnΔ } from './logger';
 export {
   BettererLogger,
   BettererLoggerCodeInfo,
-  BettererLoggerMessages,
-  BettererLoggerOverwriteDone,
-  BettererLoggerDiffOptions
+  BettererLoggerDiffOptions,
+  BettererLoggerResult,
+  BettererLoggerResults
 } from './types';

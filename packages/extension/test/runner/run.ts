@@ -19,13 +19,13 @@ export async function run(
       testResult.testResults
         .filter((assertionResult) => assertionResult.status === 'passed')
         .forEach(({ ancestorTitles, title, status }) => {
-          infoΔ(`${ancestorTitles} - ${title} (${status})`);
+          infoΔ(`${ancestorTitles} - ${title} (${status})`).log();
         });
     });
 
     results.testResults.forEach((testResult) => {
       if (testResult.failureMessage) {
-        errorΔ(testResult.failureMessage);
+        errorΔ(testResult.failureMessage).log();
       }
     });
 
