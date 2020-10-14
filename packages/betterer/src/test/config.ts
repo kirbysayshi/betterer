@@ -79,7 +79,6 @@ export function defaultDiffer(expected: number, result: number): BettererDiff<nu
     result,
     diff: null,
     log(): BettererLoggerResults {
-      debugger;
       return [diffΔ(expected, result)];
     }
   };

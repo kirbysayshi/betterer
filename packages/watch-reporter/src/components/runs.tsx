@@ -136,7 +136,3 @@ const Status: FC<StatusProps> = ({ run }) => {
   }
   throw new Error();
 };
-
-// Hack
-// Hack
-// Hack
