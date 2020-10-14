@@ -1,6 +1,7 @@
 import { brΔ, diffΔ, errorΔ, infoΔ, logΔ, logoΔ, successΔ, warnΔ } from '@betterer/logger';
-
 import { BettererContext, BettererReporter, BettererRun, BettererSummary } from '@betterer/betterer';
+import { BettererError, logErrorΔ } from '@betterer/errors';
+
 import {
   getTestsΔ,
   testBetterΔ,
@@ -122,5 +123,8 @@ export const defaultReporter: BettererReporter = {
       logΔ(...run.diff.log());
       brΔ().log();
     }
+  },
+  runError(_: BettererRun, error: BettererError) {
+    logErrorΔ(error);
   }
 };

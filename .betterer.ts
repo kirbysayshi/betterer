@@ -1,11 +1,5 @@
-import { eslint } from '@betterer/eslint';
 import { regexp } from '@betterer/regexp';
 
 export default {
   'no hack comments': regexp(/(\/\/\s*HACK)/i).include('./packages/**/src/**/*.ts', './packages/**/src/**/*.tsx'),
-
-  'new eslint rules': eslint({
-    '@typescript-eslint/restrict-template-expressions': 2,
-    '@typescript-eslint/no-floating-promises': 2
-  }).include('./packages/**/src/**/*.{js,ts, tsx}', './test/**/*.{js,ts,tsx}', './*.{js,ts,tsx}')
 };

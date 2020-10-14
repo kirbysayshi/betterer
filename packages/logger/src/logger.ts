@@ -1,5 +1,5 @@
 import { codeFrameColumns } from '@babel/code-frame';
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 import logDiff, { DiffOptions } from 'jest-diff';
 import LinesAndColumns from 'lines-and-columns';
 import * as path from 'path';
@@ -20,10 +20,10 @@ const DEFAULT_DIFF_OPTIONS: DiffOptions = {
 
 const LOGO = chalk.yellowBright(`
    \\ | /     _          _   _                     
- '-.ooo.-'  | |__   ___| |_| |_ ___ _ __ ___ _ __ 
----ooooo--- | '_ \\ / _ \\ __| __/ _ \\ '__/ _ \\ '__|
- .-'ooo'-.  | |_) |  __/ |_| ||  __/ | |  __/ |   
-   / | \\    |_.__/ \\___|\\__|\\__\\___|_|  \\___|_|   
+ '-.ooo.-'  | |__  ___| |_| |_ ___ _ __ ___ _ __ 
+---ooooo--- | '_ \\/ _ \\ __| __/ _ \\ '__/ _ \\ '__|
+ .-'ooo'-.  | |_) | __/ |_| ||  __/ | |  __/ |   
+   / | \\    |_.__/\\___|\\__|\\__\\___|_|  \\___|_|   
  `);
 
 let silent = false;

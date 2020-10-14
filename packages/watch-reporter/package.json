@@ -33,9 +33,6 @@
     "ink-text-input": "^4.0.1",
     "ink-use-stdout-dimensions": "^1.0.5",
     "react": "^16.13.1",
-    "tslib": "^2.0.1"
-  },
-  "devDependencies": {
-    "@types/react": "^16.8.24"
+    "tslib": "^2.0.3"
   }
 }

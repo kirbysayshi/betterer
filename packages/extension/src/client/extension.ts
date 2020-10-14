@@ -1,4 +1,4 @@
-import * as assert from 'assert';
+import assert from 'assert';
 import { ExtensionContext, commands } from 'vscode';
 import { CloseAction, ErrorAction, ErrorHandler, LanguageClient } from 'vscode-languageclient';
 import { EXTENSION_NAME } from '../constants';
@@ -57,6 +57,6 @@ export async function activate(context: ExtensionContext): Promise<void> {
       status
     );
   } catch {
-    error(CLIENT_START_FAILED);
+    void error(CLIENT_START_FAILED);
   }
 }

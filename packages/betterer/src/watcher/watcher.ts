@@ -1,6 +1,6 @@
 import { FSWatcher, watch as chokidar } from 'chokidar';
-import * as globby from 'globby';
-import * as minimatch from 'minimatch';
+import globby from 'globby';
+import minimatch from 'minimatch';
 import * as path from 'path';
 
 import { BettererContext, BettererContextΩ, BettererSummary } from '../context';
@@ -65,7 +65,7 @@ export class BettererWatcherΩ implements BettererWatcher {
     if (this._running) {
       await this._handleRun(this._running);
       const contextΩ = this._context as BettererContextΩ;
-      contextΩ.end();
+      await contextΩ.end();
       await contextΩ.save();
     }
   }

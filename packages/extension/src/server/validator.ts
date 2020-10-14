@@ -1,5 +1,5 @@
 import { BettererFileIssue, BettererFileIssues, BettererFilesDiff, BettererFileTestResult } from '@betterer/betterer';
-import * as assert from 'assert';
+import assert from 'assert';
 import { Diagnostic, DiagnosticSeverity, IConnection, Position, TextDocuments } from 'vscode-languageserver';
 import { TextDocument } from 'vscode-languageserver-textdocument';
 import { URI } from 'vscode-uri';
@@ -43,7 +43,7 @@ export class BettererValidator {
         try {
           betterer = await getLibrary(cwd);
         } catch {
-          this._connection.sendRequest(BettererNoLibraryRequest, { source: { uri: document.uri } });
+          void this._connection.sendRequest(BettererNoLibraryRequest, { source: { uri: document.uri } });
           return;
         }
       }
@@ -110,7 +110,7 @@ export class BettererValidator {
           this._connection.sendDiagnostics({ uri, diagnostics });
         } catch (e) {
           if (isNoConfigError(e)) {
-            this._connection.sendRequest(BettererInvalidConfigRequest, { source: { uri: document.uri } });
+            void this._connection.sendRequest(BettererInvalidConfigRequest, { source: { uri: document.uri } });
             status = BettererStatus.warn;
           } else {
             status = BettererStatus.error;
