@@ -1,8 +1,8 @@
 import assert from 'assert';
 
-import { BettererTestConfig, BettererDiff } from '../test';
 import { BettererRun, BettererRuns } from '../context';
 import { read } from '../reader';
+import { BettererTestConfig, BettererDiff } from '../test';
 import { write } from '../writer';
 import { parse } from './parser';
 import { print } from './printer';
@@ -14,16 +14,16 @@ const RESULTS_HEADER = `// BETTERER RESULTS V2.`;
 export class BettererResults {
   constructor(private _resultsPath: string) {}
 
-  public async getResultNames(): Promise<Array<string>> {
+  public async getExpectedNames(): Promise<Array<string>> {
     const results = await parse(this._resultsPath);
     return Object.keys(results);
   }
 
-  public async getResult(name: string, test: BettererTestConfig): Promise<BettererResult> {
-    const results = await parse(this._resultsPath);
-    if (Object.hasOwnProperty.call(results, name)) {
-      assert(results[name]);
-      const { value } = results[name];
+  public async getExpectedResult(name: string, test: BettererTestConfig): Promise<BettererResult> {
+    const expectedResults = await parse(this._resultsPath);
+    if (Object.hasOwnProperty.call(expectedResults, name)) {
+      assert(expectedResults[name]);
+      const { value } = expectedResults[name];
       const parsed = JSON.parse(value) as BettererResultValue;
       return new BettererResultΩ(test.serialiser.deserialise(parsed));
     }

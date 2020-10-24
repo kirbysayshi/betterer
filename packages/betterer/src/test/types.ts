@@ -40,7 +40,7 @@ export type BettererDeserialise<DeserialisedType extends BettererResultValue, Se
   serialised: SerialisedType
 ) => DeserialisedType;
 
-export type BettererSerialiser<DeserialisedType extends BettererResultValue, SerialisedType> = {
+export type BettererSerialiser<DeserialisedType extends BettererResultValue, SerialisedType = DeserialisedType> = {
   serialise: BettererSerialise<DeserialisedType, SerialisedType>;
   deserialise: BettererDeserialise<DeserialisedType, SerialisedType>;
 };

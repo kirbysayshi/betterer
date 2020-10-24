@@ -11,6 +11,6 @@ export type BettererResultValue = BettererResultValueBasic | BettererResultValue
 
 export type BettererResult = {
   isNew: boolean;
-  value: number;
+  value: unknown;
   result: BettererResultValue;
 };

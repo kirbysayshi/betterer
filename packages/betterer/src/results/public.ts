@@ -1,1 +1,1 @@
-export { BettererResult, BettererResultValue } from './types';
+export { BettererResult, BettererResultValue, BettererResultValueBasic, BettererResultValueComplex } from './types';

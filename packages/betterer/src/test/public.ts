@@ -8,13 +8,14 @@ export {
   BettererFile,
   BettererFileTestResult,
   BettererFileDiff,
-  BettererFilesDiff,
+  BettererFileTestDiff,
   BettererFileIssue,
   BettererFileIssues
 } from './file-test/public';
 export { BettererTest } from './test';
 export {
   BettererDeserialise,
+  BettererDiff,
   BettererDiffer,
   BettererPrinter,
   BettererSerialise,

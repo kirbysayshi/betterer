@@ -9,13 +9,13 @@ import { BettererResults, BettererResultΩ } from '../results';
 import {
   BettererDiff,
   BettererTest,
+  BettererTestBase,
   BettererTestMap,
   BettererTestConfigMap,
   BettererTestConfigPartial,
   isBettererFileTest,
   isBettererTest
 } from '../test';
-import { BettererTestBase } from '../test';
 import { BettererFilePaths } from '../watcher';
 import { BettererRunΩ } from './run';
 import { BettererSummaryΩ } from './summary';
@@ -54,7 +54,7 @@ export class BettererContextΩ implements BettererContext {
         .map(async (name) => {
           const test = this._tests[name];
           const { isSkipped, config } = test;
-          const expected = await this._results.getResult(name, config);
+          const expected = await this._results.getExpectedResult(name, config);
           const expectedΩ = expected as BettererResultΩ;
           return new BettererRunΩ(this, name, config, expectedΩ, filePaths, isSkipped);
         })
@@ -135,8 +135,8 @@ export class BettererContextΩ implements BettererContext {
   }
 
   private async _initObsolete(): Promise<BettererRunNames> {
-    const resultNames = await this._results.getResultNames();
-    return resultNames.filter((expectedName) => !Object.keys(this._tests).find((name) => name === expectedName));
+    const expectedNames = await this._results.getExpectedNames();
+    return expectedNames.filter((expectedName) => !Object.keys(this._tests).find((name) => name === expectedName));
   }
 
   private _initFilters(): void {
