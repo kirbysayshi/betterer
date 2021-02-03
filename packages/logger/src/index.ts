@@ -1,21 +1,32 @@
-export { brΔ, codeΔ, debugΔ, diffΔ, errorΔ, infoΔ, logΔ, logoΔ, muteΔ, rawΔ, successΔ, unmuteΔ, warnΔ } from './logger';
+export { BettererConsoleLogger } from './console-logger';
+export { codeΔ } from './code';
+export { diffΔ } from './diff';
+export { LOGO } from './logo';
 export {
+  BettererErrorLog,
+  BettererErrorLogProps,
+  BettererLogo,
   BettererTask,
   BettererTaskColour,
   BettererTaskContext,
-  BettererTaskError,
   BettererTaskProps,
-  BettererTaskStatusMessage,
-  BettererTaskStatusMessages,
-  BettererTaskUpdate,
+  BettererTaskLog,
+  BettererTaskLogs,
+  BettererTaskStatusUpdate,
+  BettererTaskStatusUpdateAsync,
   BettererTaskLogger,
+  BettererTaskLoggerAsync,
   BettererTasks,
-  BettererTasksProps
-} from './tasks/public';
+  BettererTasksProps,
+  BettererTasksState
+} from './components/public';
 export {
   BettererLogger,
+  BettererLoggerAsync,
+  BettererLogMessage,
+  BettererLogMessageAsync,
+  BettererLogCode,
+  BettererLogCodeAsync,
   BettererLoggerCodeInfo,
-  BettererLoggerDiffOptions,
-  BettererLoggerResult,
-  BettererLoggerResults
+  BettererLoggerMessages
 } from './types';

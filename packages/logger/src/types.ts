@@ -1,22 +1,6 @@
-import { DiffOptions } from 'jest-diff';
-
-export enum BettererLoggerMessageType {
-  code,
-  debug,
-  diff,
-  error,
-  info,
-  logo,
-  raw,
-  success,
-  warn
-}
-
-export type BettererLog = (...messages: Array<string>) => void;
-export type BettererLoggerMessageFactory<T extends Array<unknown>> = (...args: T) => Array<string>;
-export type BettererLoggerResult = { type: BettererLoggerMessageType; messages: Array<string>; log(): void };
-export type BettererLoggerResults = Array<BettererLoggerResult>;
-export type BettererLogger<T extends Array<unknown>> = (...args: T) => BettererLoggerResult;
+export type BettererLoggerMessages = Array<string>;
+export type BettererLogMessage = (...messages: BettererLoggerMessages) => void;
+export type BettererLogMessageAsync = (...messages: BettererLoggerMessages) => Promise<void>;
 
 export type BettererLoggerCodeInfo = {
   message: string;
@@ -27,4 +11,23 @@ export type BettererLoggerCodeInfo = {
   length: number;
 };
 
-export type BettererLoggerDiffOptions = DiffOptions;
+export type BettererLogCode = (codeInfo: BettererLoggerCodeInfo) => void;
+export type BettererLogCodeAsync = (codeInfo: BettererLoggerCodeInfo) => Promise<void>;
+
+export type BettererLogger = {
+  code: BettererLogCode;
+  debug: BettererLogMessage;
+  error: BettererLogMessage;
+  info: BettererLogMessage;
+  success: BettererLogMessage;
+  warn: BettererLogMessage;
+};
+
+export type BettererLoggerAsync = {
+  code: BettererLogCodeAsync;
+  debug: BettererLogMessageAsync;
+  error: BettererLogMessageAsync;
+  info: BettererLogMessageAsync;
+  success: BettererLogMessageAsync;
+  warn: BettererLogMessageAsync;
+};

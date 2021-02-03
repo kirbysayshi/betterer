@@ -1,5 +1,5 @@
-import { registerError } from '@betterer/errors';
-import { BettererTaskContext, BettererTaskStatusMessage, BettererTaskLogger } from '@betterer/logger';
+import { BettererError } from '@betterer/errors';
+import { BettererTaskLog, BettererTaskLoggerAsync } from '@betterer/logger';
 import { promises as fs } from 'fs';
 import * as path from 'path';
 import { publicApi, verifyAgainstGoldenFile } from 'ts-api-guardian';
@@ -33,22 +33,8 @@ export async function getPackages(): Promise<Array<string>> {
   });
 }
 
-export const PACKAGE_API_DIFF = registerError(
-  (packageName) => `API changes found in "@betterer/${packageName.toString()}"`
-);
-
-export function testPackageAPI(packageName: string): BettererTaskContext {
-  return {
-    name: packageName,
-    run: (logger) => runTestPackageAPI(logger, packageName)
-  };
-}
-
-export async function runTestPackageAPI(
-  logger: BettererTaskLogger,
-  packageName: string
-): Promise<string | BettererTaskStatusMessage> {
-  logger.status(`Validating API for "@betterer/${packageName}" ...`);
+export async function run(logger: BettererTaskLoggerAsync, packageName: string): Promise<string | BettererTaskLog> {
+  await logger.progress(`Validating API for "@betterer/${packageName}" ...`);
 
   const packageDeclarationPath = path.join(PACKAGES_DIR, packageName, BUILT_DECLARATION);
   const packageGoldenPath = path.join(GOLDENS_DIR, `${packageName}${DECLARATION_EXTENSION}`);
@@ -63,7 +49,9 @@ export async function runTestPackageAPI(
   });
 
   if (foundToken) {
-    return `Found "${foundToken}" in the API for "@betterer/${packageName}. This means internal code has been exposed.`;
+    throw new BettererError(
+      `found "${foundToken}" in the API for "@betterer/${packageName}. This means internal code has been exposed.`
+    );
   }
 
   const isDefinitelyValid = packageGolden === packageGenerated;
@@ -80,7 +68,7 @@ export async function runTestPackageAPI(
   }
 
   const diff = verifyAgainstGoldenFile(packageDeclarationPath, packageGoldenPath, API_OPTIONS);
-  throw PACKAGE_API_DIFF(packageName, diff);
+  throw new BettererError(`API changes found in "@betterer/${packageName.toString()}"`, diff);
 }
 
 function checkForBannedTokens(types: string, token: string): boolean {

@@ -1,8 +1,7 @@
 import { BettererFileResolver, BettererFileTest } from '@betterer/betterer';
+import { BettererError } from '@betterer/errors';
 import * as path from 'path';
 import * as ts from 'typescript';
-
-import { COMPILER_OPTIONS_REQUIRED, CONFIG_PATH_REQUIRED } from './errors';
 
 const NEW_LINE = '\n';
 
@@ -14,10 +13,14 @@ type TypeScriptReadConfigResult = {
 
 export function typescript(configFilePath: string, extraCompilerOptions: ts.CompilerOptions): BettererFileTest {
   if (!configFilePath) {
-    throw CONFIG_PATH_REQUIRED();
+    throw new BettererError(
+      "for `@betterer/typescript` to work, you need to provide the path to a tsconfig.json file, e.g. `'./tsconfig.json'`. ❌"
+    );
   }
   if (!extraCompilerOptions) {
-    throw COMPILER_OPTIONS_REQUIRED();
+    throw new BettererError(
+      'for `@betterer/typescript` to work, you need to provide compiler options, e.g. `{ strict: true }`. ❌'
+    );
   }
 
   const resolver = new BettererFileResolver();
@@ -59,13 +62,15 @@ export function typescript(configFilePath: string, extraCompilerOptions: ts.Comp
       ...semanticDiagnostics
     ]);
 
-    allDiagnostics.forEach((diagnostic) => {
-      const { start, length } = diagnostic as ts.DiagnosticWithLocation;
-      const source = (diagnostic as ts.DiagnosticWithLocation).file;
-      const { fileName } = source;
-      const file = fileTestResult.addFile(fileName, source.getFullText());
-      const message = ts.flattenDiagnosticMessageText(diagnostic.messageText, NEW_LINE);
-      file.addIssue(start, start + length, message);
-    });
+    allDiagnostics
+      .filter(({ file, start, length }) => file && start != null && length != null)
+      .forEach((diagnostic) => {
+        const { start, length } = diagnostic as ts.DiagnosticWithLocation;
+        const source = (diagnostic as ts.DiagnosticWithLocation).file;
+        const { fileName } = source;
+        const file = fileTestResult.addFile(fileName, source.getFullText());
+        const message = ts.flattenDiagnosticMessageText(diagnostic.messageText, NEW_LINE);
+        file.addIssue(start, start + length, message);
+      });
   });
 }

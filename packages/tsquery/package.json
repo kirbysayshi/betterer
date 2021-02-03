@@ -1,7 +1,7 @@
 {
   "name": "@betterer/tsquery",
   "description": "TSQuery test for @betterer/betterer",
-  "version": "3.1.0",
+  "version": "3.1.2",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
@@ -24,9 +24,12 @@
     "compile": "tsc -b .",
     "api": "ts-api-guardian --out ../../goldens/api/@betterer/tsquery.d.ts dist/index.d.ts"
   },
+  "engines": {
+    "node": ">=12"
+  },
   "dependencies": {
-    "@betterer/betterer": "^3.1.0",
-    "@betterer/errors": "^3.1.0",
+    "@betterer/betterer": "^3.1.2",
+    "@betterer/errors": "^3.1.1",
     "@phenomnomnominal/tsquery": "^4.1.0",
     "tslib": "^2.0.3"
   }

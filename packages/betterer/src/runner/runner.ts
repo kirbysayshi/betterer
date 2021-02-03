@@ -5,7 +5,7 @@ import { BettererFilePaths } from '../watcher';
 import { BettererResultΩ } from '../results';
 
 export async function parallel(context: BettererContextΩ, filePaths: BettererFilePaths): Promise<BettererSummary> {
-  return context.start(async (runs) => {
+  return context.run(async (runs) => {
     await Promise.all(
       runs.map(async (run) => {
         const runΩ = run as BettererRunΩ;
@@ -17,7 +17,7 @@ export async function parallel(context: BettererContextΩ, filePaths: BettererFi
 }
 
 export async function serial(context: BettererContextΩ): Promise<BettererSummary> {
-  return context.start(async (runs) => {
+  return context.run(async (runs) => {
     await runs.reduce(async (p, run) => {
       await p;
       const runΩ = run as BettererRunΩ;
@@ -31,11 +31,12 @@ async function runTest(run: BettererRun, update: boolean): Promise<void> {
   const runΩ = run as BettererRunΩ;
   const { test } = runΩ;
 
+  await runΩ.start();
+
   if (run.isSkipped) {
     return;
   }
 
-  await runΩ.start();
   let result: BettererResultΩ;
   try {
     result = new BettererResultΩ(await test.test(runΩ));

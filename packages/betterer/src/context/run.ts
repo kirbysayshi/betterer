@@ -1,17 +1,19 @@
 import { BettererError } from '@betterer/errors';
 import assert from 'assert';
 
+import { BettererReporterΩ } from '../reporters';
 import { BettererResult } from '../results';
 import { BettererDiff, BettererTestConfig } from '../test';
+import { Defer, defer } from '../utils';
 import { BettererFilePaths } from '../watcher';
-import { BettererContextΩ } from './context';
-import { BettererContext, BettererRun } from './types';
+import { BettererRun } from './types';
 
 enum BettererRunStatus {
   better,
   failed,
   pending,
   new,
+  obsolete,
   same,
   skipped,
   update,
@@ -20,6 +22,7 @@ enum BettererRunStatus {
 
 export class BettererRunΩ implements BettererRun {
   private _diff: BettererDiff | null = null;
+  private _lifecycle: Defer<void>;
   private _result: BettererResult | null = null;
   private _status: BettererRunStatus;
   private _timestamp: number | null = null;
@@ -29,19 +32,26 @@ export class BettererRunΩ implements BettererRun {
   private _isRan = false;
 
   constructor(
-    private readonly _context: BettererContext,
+    private readonly _reporter: BettererReporterΩ,
     private readonly _name: string,
     private readonly _test: BettererTestConfig,
     private readonly _expected: BettererResult,
     private readonly _filePaths: BettererFilePaths,
-    isSkipped: boolean
+    isSkipped: boolean,
+    isObsolete: boolean
   ) {
     this._status = isSkipped ? BettererRunStatus.skipped : BettererRunStatus.pending;
+    this._status = isObsolete ? BettererRunStatus.obsolete : this._status;
+    this._lifecycle = defer();
   }
 
   public get diff(): BettererDiff {
     assert(this._diff);
     return this._diff;
+  }
+
+  public get lifecycle(): Promise<void> {
+    return this._lifecycle.promise;
   }
 
   public get name(): string {
@@ -82,6 +92,10 @@ export class BettererRunΩ implements BettererRun {
     return this._expected.isNew;
   }
 
+  public get isObsolete(): boolean {
+    return this._status === BettererRunStatus.obsolete;
+  }
+
   public get isRan(): boolean {
     return this._isRan;
   }
@@ -116,13 +130,13 @@ export class BettererRunΩ implements BettererRun {
   }
 
   public async end(): Promise<void> {
-    const contextΩ = this._context as BettererContextΩ;
-    await contextΩ.runEnd(this);
+    this._lifecycle.resolve();
+    await this._reporter.runEnd(this);
   }
 
-  public async failed(e: BettererError): Promise<void> {
-    const contextΩ = this._context as BettererContextΩ;
-    await contextΩ.runError(this, e);
+  public async failed(error: BettererError): Promise<void> {
+    this._lifecycle.reject(error);
+    await this._reporter.runError(this, error);
     assert.strictEqual(this._status, BettererRunStatus.pending);
     this._status = BettererRunStatus.failed;
   }
@@ -137,9 +151,8 @@ export class BettererRunΩ implements BettererRun {
 
   public async start(): Promise<void> {
     const startTime = Date.now();
-    this._isExpired = startTime > this._test.deadline;
-    const contextΩ = this._context as BettererContextΩ;
-    await contextΩ.runStart(this);
+    this._isExpired = startTime >= this._test.deadline;
+    await this._reporter.runStart(this, this._lifecycle.promise);
     this._timestamp = startTime;
   }
 
@@ -149,14 +162,12 @@ export class BettererRunΩ implements BettererRun {
 
   public update(result: BettererResult): void {
     this._updateResult(BettererRunStatus.update, result);
-    const contextΩ = this._context as BettererContextΩ;
-    this._diff = contextΩ.runDiff(this);
+    this._diff = this.test.differ(this.expected.result, this.result.result);
   }
 
   public worse(result: BettererResult): void {
     this._updateResult(BettererRunStatus.worse, result);
-    const contextΩ = this._context as BettererContextΩ;
-    this._diff = contextΩ.runDiff(this);
+    this._diff = this.test.differ(this.expected.result, this.result.result);
   }
 
   private _updateResult(status: BettererRunStatus, result: BettererResult, isComplete = false) {

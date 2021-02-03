@@ -1,4 +1,4 @@
-import { BettererLoggerResults, codeΔ, errorΔ, successΔ, warnΔ } from '@betterer/logger';
+import { BettererLogger } from '@betterer/logger';
 import assert from 'assert';
 
 import { BettererFileΩ } from './file';
@@ -155,27 +155,26 @@ export function differ(expected: BettererFileTestResult, result: BettererFileTes
     expected,
     result,
     diff,
-    log(): BettererLoggerResults {
-      const messages: BettererLoggerResults = [];
+    log(logger: BettererLogger) {
       filePaths.forEach((filePath) => {
         const existing = diff[filePath].existing || [];
         const fixed = diff[filePath].fixed || [];
         if (fixed?.length) {
-          messages.push(successΔ(`${fixed.length} fixed ${getIssues(fixed.length)} in "${filePath}".`));
+          logger.success(`${fixed.length} fixed ${getIssues(fixed.length)} in "${filePath}".`);
         }
         if (existing?.length) {
-          messages.push(warnΔ(`${existing.length} existing ${getIssues(existing.length)} in "${filePath}".`));
+          logger.warn(`${existing.length} existing ${getIssues(existing.length)} in "${filePath}".`);
         }
         const newIssues = diff[filePath].new || [];
         if (newIssues.length) {
           const { length } = newIssues;
-          messages.push(errorΔ(`${length} new ${getIssues(length)} in "${filePath}":`));
+          logger.error(`${length} new ${getIssues(length)} in "${filePath}":`);
 
           newIssues.forEach((issue) => {
             const fileΩ = resultΩ.getFile(filePath) as BettererFileΩ;
             const { fileText } = fileΩ;
             const { line, column, length, message } = issue;
-            messages.push(codeΔ({ message, filePath, fileText, line, column, length }));
+            logger.code({ message, filePath, fileText, line, column, length });
           });
         }
       });

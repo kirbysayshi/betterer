@@ -37,6 +37,7 @@ export declare type BettererConfigPaths = ReadonlyArray<string>;
 
 export declare type BettererContext = {
     readonly config: BettererConfig;
+    readonly lifecycle: Promise<BettererSummary>;
 };
 
 export declare type BettererDeserialise<DeserialisedType extends BettererResultValue, SerialisedType> = (serialised: SerialisedType) => DeserialisedType;
@@ -45,7 +46,7 @@ export declare type BettererDiff<DeserialisedType extends BettererResultValue = 
     expected: DeserialisedType;
     result: DeserialisedType;
     diff: DiffType;
-    log: () => BettererLoggerResults;
+    log: (logger: BettererLogger) => void;
 };
 
 export declare type BettererDiffer<DeserialisedType extends BettererResultValue, DiffType> = (expected: DeserialisedType, result: DeserialisedType) => BettererDiff<DeserialisedType, DiffType>;
@@ -121,12 +122,12 @@ export declare type BettererPrinter<SerialisedType> = (serialised: SerialisedTyp
 
 export declare type BettererReporter = {
     configError?(config: BettererConfigPartial, error: BettererError): Promise<void> | void;
-    contextStart?(context: BettererContext): Promise<void> | void;
+    contextStart?(context: BettererContext, lifecycle: Promise<BettererSummary>): Promise<void> | void;
     contextEnd?(context: BettererContext, summary: BettererSummary): Promise<void> | void;
     contextError?(context: BettererContext, error: BettererError): Promise<void> | void;
     runsStart?(runs: BettererRuns, files: BettererFilePaths): Promise<void> | void;
     runsEnd?(runs: BettererRuns, files: BettererFilePaths): Promise<void> | void;
-    runStart?(run: BettererRun): Promise<void> | void;
+    runStart?(run: BettererRun, lifecycle: Promise<void>): Promise<void> | void;
     runEnd?(run: BettererRun): Promise<void> | void;
     runError?(run: BettererRun, error: BettererError): Promise<void> | void;
 };
@@ -151,6 +152,7 @@ export declare type BettererRun = {
     readonly diff: BettererDiff;
     readonly expected: BettererResult;
     readonly filePaths: BettererFilePaths;
+    readonly lifecycle: Promise<void>;
     readonly name: string;
     readonly result: BettererResult;
     readonly test: BettererTestConfig;
@@ -160,6 +162,7 @@ export declare type BettererRun = {
     readonly isExpired: boolean;
     readonly isFailed: boolean;
     readonly isNew: boolean;
+    readonly isObsolete: boolean;
     readonly isSame: boolean;
     readonly isSkipped: boolean;
     readonly isUpdated: boolean;
@@ -184,7 +187,6 @@ export declare type BettererStartConfigPartial = BettererBaseConfigPartial & Par
 
 export declare type BettererSummary = {
     readonly runs: BettererRuns;
-    readonly obsolete: BettererRunNames;
     readonly result: string;
     readonly expected: string | null;
     readonly hasDiff: boolean;
@@ -193,6 +195,7 @@ export declare type BettererSummary = {
     readonly expired: BettererRuns;
     readonly failed: BettererRuns;
     readonly new: BettererRuns;
+    readonly obsolete: BettererRuns;
     readonly ran: BettererRuns;
     readonly same: BettererRuns;
     readonly skipped: BettererRuns;
