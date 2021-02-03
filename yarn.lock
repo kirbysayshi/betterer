@@ -2318,7 +2318,7 @@ ansi-escapes@^3.2.0:
   resolved "https://registry.npmjs.org/ansi-escapes/-/ansi-escapes-3.2.0.tgz#8780b98ff9dbf5638152d1f1fe5c1d7b4442976b"
   integrity sha512-cBhpre4ma+U0T1oM5fXg7Dy1Jw7zzwv7lt/GoCpr+hDQJoYnKVPLL4dCvSEFMmQurOQvSrwT7SL/DAlhBI97RQ==
 
-ansi-escapes@^4.2.1:
+ansi-escapes@^4.2.1, ansi-escapes@^4.3.0:
   version "4.3.1"
   resolved "https://registry.npmjs.org/ansi-escapes/-/ansi-escapes-4.3.1.tgz#a5c47cc43181f1f38ffd7076837700d395522a61"
   integrity sha512-JWF7ocqNrp8u9oqpgV+wH5ftbt+cfvv+PTjOvKLT3AdYly/LmORARfEVT1iyjwN+4MqE5UmVKoAdIBqeoCHgLA==
@@ -2985,11 +2985,6 @@ cli-cursor@^3.1.0:
   integrity sha512-I/zHAwsKf9FqGoXM4WWRACob9+SNukZTd94DWF57E4toouRulbCxcUh6RKUEOQlYTHJnzkPMySvPNaaSLNfLZw==
   dependencies:
     restore-cursor "^3.1.0"
-
-cli-spinners@^2.3.0:
-  version "2.4.0"
-  resolved "https://registry.npmjs.org/cli-spinners/-/cli-spinners-2.4.0.tgz#c6256db216b878cfba4720e719cec7cf72685d7f"
-  integrity sha512-sJAofoarcm76ZGpuooaO0eDy8saEy+YoZBLjC4h8srt4jeBnkYeOgqxgsJQTpyt2LjI5PTfLJHSL+41Yu4fEJA==
 
 cli-truncate@^2.1.0:
   version "2.1.0"
@@ -5011,63 +5006,6 @@ init-package-json@^1.10.3:
     validate-npm-package-license "^3.0.1"
     validate-npm-package-name "^3.0.0"
 
-ink-progress-bar@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.npmjs.org/ink-progress-bar/-/ink-progress-bar-3.0.0.tgz#e1cb86955355054e194361b8cb80f57124a9b203"
-  integrity sha512-GzByB3uEofqjyWC3VmdhYpBq+kzszu5Nwt/NruTDWa7fbw1E6sx6U1n6Kcsfj9D3qwR17dtC5w9uFVMyRA5HZw==
-  dependencies:
-    blacklist "^1.1.4"
-    prop-types "^15.7.2"
-
-ink-spinner@^4.0.1:
-  version "4.0.1"
-  resolved "https://registry.npmjs.org/ink-spinner/-/ink-spinner-4.0.1.tgz#f67a59ff6d4698a5d67b7bb66266ea6829a8a4e1"
-  integrity sha512-2eYtzzUPb22Z0Cn2bGvE4BteYjcqDhgrHnCzGJM81EHXXlyNU7aYfucPgZs2CZPy0LWz/5hwoecFhd0mj1hrbw==
-  dependencies:
-    cli-spinners "^2.3.0"
-
-ink-text-input@^4.0.1:
-  version "4.0.1"
-  resolved "https://registry.npmjs.org/ink-text-input/-/ink-text-input-4.0.1.tgz#e3de3f7e7f4247d64018838c57bbbc6120901368"
-  integrity sha512-wiqkrB2tgnCnv51r2LpNLVfgrd/V+UXF3ccry+/Q7on9CBt8LVavX6NDYRMdXljuM+CcFV/sVro0bCr5oxB05w==
-  dependencies:
-    chalk "^4.1.0"
-    type-fest "^0.15.1"
-
-ink-use-stdout-dimensions@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.npmjs.org/ink-use-stdout-dimensions/-/ink-use-stdout-dimensions-1.0.5.tgz#7739876c00284840601c4150aa84eb7adc143de2"
-  integrity sha512-rVsqnw4tQEAJUoknU09+zHdDf30GJdkumkHr0iz/TOYMYEZJkYqziQSGJAM+Z+M603EDfO89+Nxyn/Ko2Zknfw==
-
-ink@^3.0.5:
-  version "3.0.5"
-  resolved "https://registry.npmjs.org/ink/-/ink-3.0.5.tgz#9397b21111a7c6c5f5e00cfeb7420f9c09ba044d"
-  integrity sha512-Zc/Yoi3P0cY0DC9ryb3HTwmi4Qgke9332ebOhDRaK9Cw6D+ABAOQPeHG8IdmI1GOkMKRMZwTP/1jRs/b1D1n9Q==
-  dependencies:
-    ansi-escapes "^4.2.1"
-    auto-bind "4.0.0"
-    chalk "^4.1.0"
-    cli-boxes "^2.2.0"
-    cli-cursor "^3.1.0"
-    cli-truncate "^2.1.0"
-    code-excerpt "^3.0.0"
-    indent-string "^4.0.0"
-    is-ci "^2.0.0"
-    lodash.throttle "^4.1.1"
-    patch-console "^1.0.0"
-    react-devtools-core "^4.6.0"
-    react-reconciler "^0.24.0"
-    scheduler "^0.18.0"
-    signal-exit "^3.0.2"
-    slice-ansi "^3.0.0"
-    stack-utils "^2.0.2"
-    string-length "^3.1.0"
-    type-fest "^0.12.0"
-    widest-line "^3.1.0"
-    wrap-ansi "^6.2.0"
-    ws "^7.2.5"
-    yoga-layout-prebuilt "^1.9.6"
-
 ink@^3.0.7:
   version "3.0.7"
   resolved "https://registry.npmjs.org/ink/-/ink-3.0.7.tgz#acf8f3da628f3fff6d0e48642a57d82a6720bb5d"
@@ -6526,11 +6464,6 @@ lodash.templatesettings@^4.0.0:
   dependencies:
     lodash._reinterpolate "^3.0.0"
 
-lodash.throttle@^4.1.1:
-  version "4.1.1"
-  resolved "https://registry.npmjs.org/lodash.throttle/-/lodash.throttle-4.1.1.tgz#c23e91b710242ac70c37f1e1cda9274cc39bf2f4"
-  integrity sha1-wj6RtxAkKscMN/HhzaknTMOb8vQ=
-
 lodash.uniq@^4.5.0:
   version "4.5.0"
   resolved "https://registry.npmjs.org/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
@@ -6550,6 +6483,16 @@ lodash@^4.17.20:
   version "4.17.20"
   resolved "https://registry.npmjs.org/lodash/-/lodash-4.17.20.tgz#b44a9b6297bcb698f1c51a3545a2b3b368d59c52"
   integrity sha512-PlhdFcillOINfeV7Ni6oF1TAEayyZBoZ8bcshTHqOYJYlrqzRK5hagpagky5o4HfCzzd1TRkXPMFq6cKk9rGmA==
+
+log-update@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.npmjs.org/log-update/-/log-update-4.0.0.tgz#589ecd352471f2a1c0c570287543a64dfd20e0a1"
+  integrity sha512-9fkkDevMefjg0mmzWFBW8YkFP91OrizzkW3diF7CpG+S2EYdy4+TVfGwz1zeF8x7hCx1ovSPTOE9Ngib74qqUg==
+  dependencies:
+    ansi-escapes "^4.3.0"
+    cli-cursor "^3.1.0"
+    slice-ansi "^4.0.0"
+    wrap-ansi "^6.2.0"
 
 longest@^2.0.1:
   version "2.0.1"
@@ -7724,7 +7667,7 @@ promzard@^0.3.0:
   dependencies:
     read "1"
 
-prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@^15.6.2:
   version "15.7.2"
   resolved "https://registry.npmjs.org/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -8429,6 +8372,15 @@ slice-ansi@^3.0.0:
   version "3.0.0"
   resolved "https://registry.npmjs.org/slice-ansi/-/slice-ansi-3.0.0.tgz#31ddc10930a1b7e0b67b08c96c2f49b77a789787"
   integrity sha512-pSyv7bSTC7ig9Dcgbw9AuRNUb5k5V6oDudjZoMBSr13qpLBG7tB+zgCkARjq7xIUgdz5P1Qe8u+rSGdouOOIyQ==
+  dependencies:
+    ansi-styles "^4.0.0"
+    astral-regex "^2.0.0"
+    is-fullwidth-code-point "^3.0.0"
+
+slice-ansi@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.npmjs.org/slice-ansi/-/slice-ansi-4.0.0.tgz#500e8dd0fd55b05815086255b3195adf2a45fe6b"
+  integrity sha512-qMCMfhY040cVHT43K9BFygqYbUPFZKHOg7K73mtTWJRb8pyP3fzf4Ixd5SzdEJQ6MRUg/WBnOLxghZtKKurENQ==
   dependencies:
     ansi-styles "^4.0.0"
     astral-regex "^2.0.0"
@@ -9238,11 +9190,6 @@ type-fest@^0.13.1:
   version "0.13.1"
   resolved "https://registry.npmjs.org/type-fest/-/type-fest-0.13.1.tgz#0172cb5bce80b0bd542ea348db50c7e21834d934"
   integrity sha512-34R7HTnG0XIJcBSn5XhDd7nNFPRcXYRZrBB2O2jdKqYODldSzBAqzsWoZYYvduky73toYS/ESqxPvkDf/F0XMg==
-
-type-fest@^0.15.1:
-  version "0.15.1"
-  resolved "https://registry.npmjs.org/type-fest/-/type-fest-0.15.1.tgz#d2c4e73d3e4a53cf1a906396dd460a1c5178ca00"
-  integrity sha512-n+UXrN8i5ioo7kqT/nF8xsEzLaqFra7k32SEsSPwvXVGyAcRgV/FUQN/sgfptJTR1oRmmq7z4IXMFSM7im7C9A==
 
 type-fest@^0.3.0:
   version "0.3.1"
